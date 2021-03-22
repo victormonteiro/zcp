@@ -88,8 +88,7 @@ class Client(object):
             }
         }
         print(query)
-        return self.gn_client.resource.search(resource_type='instance',
-                                              query=query,
+        return self.gn_client.resource.search(query=q[0]["value"],
                                               limit=limit)
 
     @logged
