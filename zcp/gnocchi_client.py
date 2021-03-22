@@ -84,7 +84,7 @@ class Client(object):
         print(q[0])
         query = {
             "=": {
-                "id": q[0]["value"]
+                "resource_id": q[0]["value"]
             }
         }
         print(query)
