@@ -223,7 +223,6 @@ class ZabbixHandler(Base_Handler):
                 if 'error' in response:
                     payload['params']['host'] = domain.id[:8]
                     response = self.contact_zabbix_server(payload)
-                print(response)
                 proxy_id = response['result']['proxyids'][0]
                 current_proxies.append([proxy_id, domain.id])
                 LOG.info("%s is not in zabbix proxies, success to create a "
