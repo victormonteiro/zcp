@@ -28,7 +28,7 @@ and query requirements for keystone projects and domains
 
 import functools
 import logging
-from keystoneclient1.v3 import client as ks_client_v3
+from keystoneclient.v3 import client as ks_client_v3
 
 
 LOG = logging.getLogger(__name__)
