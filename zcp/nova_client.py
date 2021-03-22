@@ -52,8 +52,8 @@ class Client(object):
         # novaclient only support keystone v3
         auth_url = conf.read_option('keystone_authtoken',
                                     'auth_url')
-        if auth_url.endswith('/v3'):
-            auth_url = auth_url.replace('/v3', '/v2.0')
+        #if auth_url.endswith('/v3'):
+        #    auth_url = auth_url.replace('/v3', '/v2.0')
         self.nv_client = nova_client.Client(2,
                                             conf.read_option(
                                                 'keystone_authtoken',
