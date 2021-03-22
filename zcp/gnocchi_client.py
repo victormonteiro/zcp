@@ -81,7 +81,7 @@ class Client(object):
             # TO DO
             # add something warning
             raise
-        return self.gn_client.resource.list(q=q,
+        return self.gn_client.resource.search(query=q,
                                               links=links,
                                               limit=limit)
 
