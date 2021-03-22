@@ -77,8 +77,6 @@ class Client(object):
 
     @logged
     def list_resources(self, resource_type=None, resource_id=None):
-        print(resource_id)
-        print(str(resource_id))
         return self.gn_client.resource.get(resource_type=resource_type,resource_id=resource_id)
 
     @logged
