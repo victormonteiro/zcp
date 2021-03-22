@@ -81,7 +81,7 @@ class Client(object):
                                  project_id=v3_kwargs['project_name'])
 
         sess = session.Session(auth=auth)
-        self.nv_client = clienova_clientnt.Client(2.1, session=sess)
+        self.nv_client = nova_client.Client(2.1, session=sess)
 
     @logged
     def instance_get_all(self, since=None):
