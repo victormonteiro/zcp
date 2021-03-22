@@ -50,11 +50,10 @@ def logged(func):
 class Client(object):
     def __init__(self, conf):
         # novaclient only support keystone v3
-        auth_url = conf.read_option('keystone_authtoken',
-                                    'auth_url')
-        #if auth_url.endswith('/v3'):
-        #    auth_url = auth_url.replace('/v3', '/v2.0')
-        self.nv_client = nova_client.Client(3,
+        auth_url = conf.read_option('nova_configs',
+                                    'api_url')
+                                    
+        self.nv_client = nova_client.Client(2,
                                             conf.read_option(
                                                 'keystone_authtoken',
                                                 'username'),
@@ -73,7 +72,6 @@ class Client(object):
     @logged
     def instance_get_all(self, since=None):
         """Returns list of all instances.
-
         If since is supplied, it will return the instances changes since that
         datetime. since should be in ISO Format '%Y-%m-%dT%H:%M:%SZ'
         """
