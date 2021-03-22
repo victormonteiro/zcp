@@ -19,7 +19,7 @@ from gnocchiclient import auth
 from gnocchiclient.v1 import client as gn_client
 from oslo_config import cfg
 from keystoneauth1 import loading
-from keystoneauth1 import session
+from keystoneauth1 import session as keystone_session
 from keystoneauth1.identity import v3
 
 from zcp.common import conf
@@ -64,16 +64,9 @@ class Client(object):
                                              'keystone_authtoken',
                                              'region_name'),
         }
-        auth = v3.Password(auth_url=v3_kwargs['auth_url'],
-                            username=v3_kwargs['username'],
-                            password=v3_kwargs['password'],
-                            project_name=v3_kwargs['project_name'],
-                            project_domain_id=v3_kwargs['project_domain_name'],
-                            user_domain_name=v3_kwargs['user_domain_name'])
+        auth_plugin = loading.load_auth_from_conf_options(conf, "gnocchi_credentials")
 
-        sess = session.Session(auth=auth)
-
-        self.clm_client = gn_client.Client('', session=sess)
+        self.gn_client = gn_client.Client(session_options={'auth': auth_plugin})
 
     @logged
     def list_resources(self, q=None, links=None, limit=None):
@@ -81,7 +74,7 @@ class Client(object):
             # TO DO
             # add something warning
             raise
-        return self.clm_client.resources.list(q=q,
+        return self.gn_client.resources.list(q=q,
                                               links=links,
                                               limit=limit)
 
@@ -90,7 +83,7 @@ class Client(object):
         if not isinstance(q, list):
             LOG.error("Invalid query param q: %s,q must be a list" % q)
             raise
-        return self.clm_client.statistics.list(meter_name,
+        return self.gn_client.statistics.list(meter_name,
                                                q=q,
                                                limit=limit
                                                )
