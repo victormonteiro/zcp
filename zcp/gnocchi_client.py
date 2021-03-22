@@ -76,19 +76,12 @@ class Client(object):
         self.gn_client = gn_client.Client(session=sess)
 
     @logged
-    def list_resources(self, q=None, limit=None):
+    def list_resources(self, resource_id=None, limit=None):
         if not isinstance(q, list):
             # TO DO
             # add something warning
             raise
-        print(q[0])
-        query = {
-            "=": {
-                "id": q[0]["value"]
-            }
-        }
-        print(query)
-        return self.gn_client.resource.search(query=q[0]["value"],
+        return self.gn_client.resource.get(resource_id=resource_id,
                                               limit=limit)
 
     @logged
