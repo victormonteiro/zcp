@@ -77,10 +77,6 @@ class Client(object):
 
     @logged
     def list_resources(self, resource_id=None, limit=None):
-        if not isinstance(q, list):
-            # TO DO
-            # add something warning
-            raise
         return self.gn_client.resource.get(resource_id=resource_id,
                                               limit=limit)
 
