@@ -22,6 +22,7 @@ from novaclient import client as nova_client
 from novaclient import exceptions
 from keystoneauth1 import loading
 from keystoneauth1 import session
+from keystoneauth1.identity import v3
 
 
 LOG = logging.getLogger(__name__)
@@ -73,12 +74,12 @@ class Client(object):
                                              'region_name'),
         }
 
-        loader = loading.get_plugin_loader('password')
-
-        auth = loader.load_from_options(auth_url=v3_kwargs['auth_url'],
-                                 username=v3_kwargs['username'],
-                                 password=v3_kwargs['password'],
-                                 project_name=v3_kwargs['project_name'])
+        auth = v3.Password(auth_url=v3_kwargs['auth_url'],
+                            username=v3_kwargs['username'],
+                            password=v3_kwargs['password'],
+                            project_name=v3_kwargs['project_name'],
+                            project_domain_id=v3_kwargs['project_domain_name'],
+                            user_domain_name=v3_kwargs['user_domain_name'])
 
         sess = session.Session(auth=auth)
         self.nv_client = nova_client.Client(2.1, session=sess)
