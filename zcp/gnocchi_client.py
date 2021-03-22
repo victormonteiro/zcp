@@ -81,8 +81,14 @@ class Client(object):
             # TO DO
             # add something warning
             raise
-        print(q)
-        return self.gn_client.resource.search(query=q,
+        print(q[0])
+        query = {
+            "=": {
+                "metadata.instance_id": q[0]["value"]
+            }
+        }
+        print(query)
+        return self.gn_client.resource.search(query=query,
                                               limit=limit)
 
     @logged
