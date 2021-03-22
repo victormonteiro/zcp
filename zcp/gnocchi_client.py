@@ -64,9 +64,16 @@ class Client(object):
                                              'keystone_authtoken',
                                              'region_name'),
         }
-        auth_plugin = loading.load_auth_from_conf_options(conf, "gnocchi_credentials")
+        auth = v3.Password(auth_url=v3_kwargs['auth_url'],
+                            username=v3_kwargs['username'],
+                            password=v3_kwargs['password'],
+                            project_name=v3_kwargs['project_name'],
+                            project_domain_id=v3_kwargs['project_domain_name'],
+                            user_domain_name=v3_kwargs['user_domain_name'])
 
-        self.gn_client = gn_client.Client(session_options={'auth': auth_plugin})
+        sess = session.Session(auth=auth)
+
+        self.gn_client = gn_client.Client(session=sess)
 
     @logged
     def list_resources(self, q=None, links=None, limit=None):
