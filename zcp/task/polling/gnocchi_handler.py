@@ -85,28 +85,27 @@ class GnocchiHandler(Handler):
         All_INSTANCES = _all_instance_details() or []
         for instance in All_INSTANCES:
             if instance['id'] in hosts and utils.is_active(instance):
-                LOG.debug("Start Checking host : %s"
+                LOG.info("Start Checking host : %s"
                           % hosts_map[instance['id']][1])
                 # Get links for instance compute metrics
-                query = [{'op': 'eq',
-                          'value': instance['id'],
-                          'field': 'metadata.instance_id'}]
                 resources = self.gnocchi_client.list_resources(resource_type='instance',
                                                             resource_id=instance['id'])
                 
-                print(resources)
                 # Add a new instance and its metrics
                 if instance['id'] not in METRIC_CACEHES.keys():
                     rs_items = {}
-                    for rs in resources:
-                        if rs.resource_id.startswith('instance'):
-                            rs_items[rs.resource_id] = NETWORK_METRICS
-                        # NOTE:remove disk metrics
-                        elif utils.endswith_words(rs.resource_id):
-                            pass
-                        else:
-                            rs_items[rs.resource_id] = INSTANCE_METRICS
-                    METRIC_CACEHES[instance['id']] = rs_items
+                    print(resources)
+                    for rs_metric in resources.metrics:
+                        print(rs_metric)
+                    # for rs in resources:
+                    #     if rs.resource_id.startswith('instance'):
+                    #         rs_items[rs.resource_id] = NETWORK_METRICS
+                    #     # NOTE:remove disk metrics
+                    #     elif utils.endswith_words(rs.resource_id):
+                    #         pass
+                    #     else:
+                    #         rs_items[rs.resource_id] = INSTANCE_METRICS
+                    # METRIC_CACEHES[instance['id']] = rs_items
                 # Update metric_caches where instance_in exists.For the case:
                 # instance add/remove a nic
                 # instance add/remove a volume
