@@ -22,7 +22,8 @@ LOG = logging.getLogger(__name__)
 
 SUPPORTED_HANDLERS = {
     'ceilometer': 'zcp.task.polling.ceilometer_handler',
-    'mongodb': 'zcp.task.polling.mongodb_handler'
+    'mongodb': 'zcp.task.polling.mongodb_handler',
+    'gnocchi': 'zcp.task.polling.gnocchi_handler',
     }
 
 
