@@ -94,8 +94,7 @@ class GnocchiHandler(Handler):
                 # Add a new instance and its metrics
                 if instance['id'] not in METRIC_CACEHES.keys():
                     rs_items = {}
-                    print(resources)
-                    for rs_metric in resources.metrics:
+                    for rs_metric in resources["metrics"]:
                         print(rs_metric)
                     # for rs in resources:
                     #     if rs.resource_id.startswith('instance'):
