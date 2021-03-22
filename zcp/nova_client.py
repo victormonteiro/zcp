@@ -73,12 +73,12 @@ class Client(object):
                                              'region_name'),
         }
 
-        auth = v3.Password(auth_url=v3_kwargs['auth_url'],
-                            username=v3_kwargs['username'],
-                            password=v3_kwargs['password'],
-                            project_name=v3_kwargs['project_name'],
-                            project_domain_id=v3_kwargs['project_domain_name'],
-                            user_domain_name=v3_kwargs['user_domain_name'])
+        loader = loading.get_plugin_loader(v3_kwargs['password'])
+
+        auth = loader.load_from_options(auth_url=v3_kwargs['auth_url'],
+                                 username=v3_kwargs['username'],
+                                 password=v3_kwargs['password'],
+                                 project_id=v3_kwargs['project_name'])
 
         sess = session.Session(auth=auth)
         self.nv_client = clienova_clientnt.Client(2.1, session=sess)
