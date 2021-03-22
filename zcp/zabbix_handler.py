@@ -52,10 +52,9 @@ def logged(func):
 
 
 class Base_Handler(object):
-    def __init__(self, zabbix_host, zabbix_port=10051, zabbix_endpoint):
+    def __init__(self, zabbix_host, zabbix_port=10051):
         self.zabbix_host = zabbix_host
         self.zabbix_port = zabbix_port
-        self.zabbix_endpoint = zabbix_endpoint
 
     def set_proxy_header(self, data):
         """Method used to simplify constructing the protocol to
@@ -771,8 +770,8 @@ class ZabbixHandler(Base_Handler):
         :return: returns the response from the Zabbix API
         """
         data = json.dumps(payload)
-        req = urllib2.Request(self.zabbix_endpoint +
-                              '/api_jsonrpc.php',
+        req = urllib2.Request('http://' + self.zabbix_host +
+                              '/painel/api_jsonrpc.php',
                               data,
                               {'Content-Type': 'application/json'})
         f = urllib2.urlopen(req)
