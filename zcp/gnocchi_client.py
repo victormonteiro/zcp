@@ -76,9 +76,8 @@ class Client(object):
         self.gn_client = gn_client.Client(session=sess)
 
     @logged
-    def list_resources(self, resource_id=None, limit=None):
-        return self.gn_client.resource.get(resource_id=resource_id,
-                                              limit=limit)
+    def list_resources(self, resource_id=None):
+        return self.gn_client.resource.get(resource_id=resource_id)
 
     @logged
     def statistics(self, meter_name, q=None, limit=None):
