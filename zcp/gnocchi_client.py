@@ -71,7 +71,7 @@ class Client(object):
                             project_domain_id=v3_kwargs['project_domain_name'],
                             user_domain_name=v3_kwargs['user_domain_name'])
 
-        sess = session.Session(auth=auth)
+        sess = keystone_session.Session(auth=auth)
 
         self.gn_client = gn_client.Client(session=sess)
 
