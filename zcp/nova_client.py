@@ -20,6 +20,8 @@ import functools
 
 from novaclient import client as nova_client
 from novaclient import exceptions
+from keystoneauth1 import loading
+from keystoneauth1 import session
 
 
 LOG = logging.getLogger(__name__)
@@ -49,25 +51,37 @@ def logged(func):
 
 class Client(object):
     def __init__(self, conf):
-        # novaclient only support keystone v3
-        auth_url = conf.read_option('nova_configs',
-                                    'api_url')
-                                    
-        self.nv_client = nova_client.Client(2,
-                                            conf.read_option(
-                                                'keystone_authtoken',
-                                                'username'),
-                                            conf.read_option(
-                                                'keystone_authtoken',
-                                                'password'),
-                                            conf.read_option(
-                                                'keystone_authtoken',
-                                                'project_name'),
-                                            auth_url,
-                                            region_name=conf.read_option(
-                                                'keystone_authtoken',
-                                                'region_name')
-                                            )
+
+        v3_kwargs = {
+                "username": conf.read_option('keystone_authtoken',
+                                             'username'),
+                "password": conf.read_option('keystone_authtoken',
+                                             'password'),
+                "project_name": conf.read_option(
+                                             'keystone_authtoken',
+                                             'project_name'),
+                "user_domain_name": conf.read_option(
+                                             'keystone_authtoken',
+                                             'user_domain_name'),
+                "project_domain_name": conf.read_option(
+                                             'keystone_authtoken',
+                                             'project_domain_name'),
+                "auth_url": conf.read_option('keystone_authtoken',
+                                             'auth_url'),
+                "region_name": conf.read_option(
+                                             'keystone_authtoken',
+                                             'region_name'),
+        }
+
+        auth = v3.Password(auth_url=v3_kwargs['auth_url'],
+                            username=v3_kwargs['username'],
+                            password=v3_kwargs['password'],
+                            project_name=v3_kwargs['project_name'],
+                            project_domain_id=v3_kwargs['project_domain_name'],
+                            user_domain_name=v3_kwargs['user_domain_name'])
+
+        sess = session.Session(auth=auth)
+        self.nv_client = clienova_clientnt.Client(2.1, session=sess)
 
     @logged
     def instance_get_all(self, since=None):
