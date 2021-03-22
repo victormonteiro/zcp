@@ -76,11 +76,12 @@ class Client(object):
         self.gn_client = gn_client.Client(session=sess)
 
     @logged
-    def list_resources(self, q=None, links=None, limit=None):
+    def list_resources(self, q=None, limit=None):
         if not isinstance(q, list):
             # TO DO
             # add something warning
             raise
+        print(q)
         return self.gn_client.resource.search(query=q,
                                               limit=limit)
 
