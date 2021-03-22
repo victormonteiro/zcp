@@ -74,7 +74,7 @@ class Client(object):
                             username=v3_kwargs['username'],
                             password=v3_kwargs['password'],
                             project_name=v3_kwargs['project_name'],
-                            project_id=v3_kwargs['project_domain_name'],
+                            project_domain_id=v3_kwargs['project_domain_name'],
                             user_domain_name=v3_kwargs['user_domain_name'])
 
         sess = session.Session(auth=auth)
