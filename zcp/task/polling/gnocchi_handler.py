@@ -94,9 +94,7 @@ class GnocchiHandler(Handler):
                 # Add a new instance and its metrics
                 if instance['id'] not in METRIC_CACEHES.keys():
                     rs_items = {}
-                    for rs_metric,data in resources["metrics"]:
-                        print(rs_metric)
-                        print(data)
+                    print(resources["metrics"])
 
                     # for rs in resources["metrics"]:
                     #     if rs.resource_id.startswith('instance'):
@@ -106,7 +104,7 @@ class GnocchiHandler(Handler):
                     #         pass
                     #     else:
                     #         rs_items[rs.resource_id] = INSTANCE_METRICS
-                    METRIC_CACEHES[instance['id']] = rs_items
+                    #METRIC_CACEHES[instance['id']] = rs_items
                 # Update metric_caches where instance_in exists.For the case:
                 # instance add/remove a nic
                 # instance add/remove a volume
