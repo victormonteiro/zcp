@@ -15,7 +15,12 @@
 import logging
 import functools
 
-from ceilometerclient.v2 import client as clm_clientv20
+from gnocchiclient import auth
+from gnocchiclient.v1 import client as gn_client
+from oslo_config import cfg
+from keystoneauth1 import loading
+from keystoneauth1 import session
+from keystoneauth1.identity import v3
 
 from zcp.common import conf
 
@@ -59,7 +64,16 @@ class Client(object):
                                              'keystone_authtoken',
                                              'region_name'),
         }
-        self.clm_client = clm_clientv20.Client('', **v3_kwargs)
+        auth = v3.Password(auth_url=v3_kwargs['auth_url'],
+                            username=v3_kwargs['username'],
+                            password=v3_kwargs['password'],
+                            project_name=v3_kwargs['project_name'],
+                            project_domain_id=v3_kwargs['project_domain_name'],
+                            user_domain_name=v3_kwargs['user_domain_name'])
+
+        sess = session.Session(auth=auth)
+
+        self.clm_client = gn_client.Client('', session=sess)
 
     @logged
     def list_resources(self, q=None, links=None, limit=None):
