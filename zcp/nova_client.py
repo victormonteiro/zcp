@@ -73,7 +73,7 @@ class Client(object):
                                              'region_name'),
         }
 
-        loader = loading.get_plugin_loader(v3_kwargs['password'])
+        loader = loading.get_plugin_loader('password')
 
         auth = loader.load_from_options(auth_url=v3_kwargs['auth_url'],
                                  username=v3_kwargs['username'],
