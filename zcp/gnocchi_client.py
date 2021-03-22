@@ -82,7 +82,6 @@ class Client(object):
             # add something warning
             raise
         return self.gn_client.resource.search(query=q,
-                                              links=links,
                                               limit=limit)
 
     @logged
