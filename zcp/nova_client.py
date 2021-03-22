@@ -54,7 +54,7 @@ class Client(object):
                                     'auth_url')
         #if auth_url.endswith('/v3'):
         #    auth_url = auth_url.replace('/v3', '/v2.0')
-        self.nv_client = nova_client.Client(2,
+        self.nv_client = nova_client.Client(3,
                                             conf.read_option(
                                                 'keystone_authtoken',
                                                 'username'),
