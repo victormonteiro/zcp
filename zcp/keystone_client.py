@@ -28,8 +28,9 @@ and query requirements for keystone projects and domains
 
 import functools
 import logging
-from keystoneauth1 import client as ks_client_v3
-
+from keystoneauth1.identity import v3
+from keystoneauth1 import session
+from keystoneclient.v3 import client
 
 LOG = logging.getLogger(__name__)
 
@@ -68,14 +69,17 @@ class Client(object):
                                              'keystone_authtoken',
                                              'region_name'),
         }
-        # project scope keystoneclient
-        self.project_keystone = ks_client_v3.Client(**v3_kwargs)
-        del v3_kwargs['project_name']
-        v3_kwargs['domain_name'] = conf.read_option('keystone_authtoken',
-                                                    'domain_name'
-                                                    )
-        # domain scope keystoneclient
-        self.domain_keystone = ks_client_v3.Client(**v3_kwargs)
+
+        auth = v3.Password(auth_url=v3_kwargs['auth_url'],
+                            username=v3_kwargs['username'],
+                            password=v3_kwargs['password'],
+                            project_name=v3_kwargs['project_name'],
+                            project_id=v3_kwargs['project_domain_name'],
+                            user_domain_name=v3_kwargs['user_domain_name'])
+
+        sess = session.Session(auth=auth)
+
+        self.domain_keystone = client.Client(session=sess)
 
     @logged
     def get_domains(self):
