@@ -94,9 +94,11 @@ class GnocchiHandler(Handler):
                 # Add a new instance and its metrics
                 if instance['id'] not in METRIC_CACEHES.keys():
                     rs_items = {}
-                    for rs_metric in resources["metrics"]:
+                    for rs_metric,data in resources["metrics"]:
                         print(rs_metric)
-                    # for rs in resources:
+                        print(data)
+
+                    # for rs in resources["metrics"]:
                     #     if rs.resource_id.startswith('instance'):
                     #         rs_items[rs.resource_id] = NETWORK_METRICS
                     #     # NOTE:remove disk metrics
@@ -104,7 +106,7 @@ class GnocchiHandler(Handler):
                     #         pass
                     #     else:
                     #         rs_items[rs.resource_id] = INSTANCE_METRICS
-                    # METRIC_CACEHES[instance['id']] = rs_items
+                    METRIC_CACEHES[instance['id']] = rs_items
                 # Update metric_caches where instance_in exists.For the case:
                 # instance add/remove a nic
                 # instance add/remove a volume
@@ -122,14 +124,14 @@ class GnocchiHandler(Handler):
                             pass
                         else:
                             continue
-                LOG.debug("Starting to polling %s(%s) metric into zabbix"
+                LOG.info("Starting to polling %s(%s) metric into zabbix"
                           % (instance.get('name'), instance.get('id')))
                 pxy = self.zabbix_hdl.get_by_proxyid(
                                 hosts_map[instance['id']][2])
                 if pxy:
                     proxy_name = pxy['host']
                 else:
-                    LOG.warning("Can't find the prxoy:%s,Skip to polling "
+                    LOG.warning("Can't find the proxy:%s,Skip to polling "
                                 "instance_id  %s metrics."
                                 % (hosts_map[instance['id']][2],
                                    instance['id']))
