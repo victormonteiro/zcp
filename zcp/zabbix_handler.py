@@ -770,8 +770,8 @@ class ZabbixHandler(Base_Handler):
         :return: returns the response from the Zabbix API
         """
         data = json.dumps(payload)
-        req = urllib2.Request('http://' + self.zabbix_host +
-                              '/zabbix/api_jsonrpc.php',
+        req = urllib2.Request('http://' + self.zabbix_endpoint +
+                              '/api_jsonrpc.php',
                               data,
                               {'Content-Type': 'application/json'})
         f = urllib2.urlopen(req)
