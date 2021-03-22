@@ -91,7 +91,8 @@ class GnocchiHandler(Handler):
                 query = [{'op': 'eq',
                           'value': instance['id'],
                           'field': 'metadata.instance_id'}]
-                resources = self.gnocchi_client.list_resources(resource_id=instance['id'])
+                resources = self.gnocchi_client.list_resources(resource_type='instance',
+                                                            resource_id=instance['id'])
                 # Add a new instance and its metrics
                 if instance['id'] not in METRIC_CACEHES.keys():
                     rs_items = {}
