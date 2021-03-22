@@ -78,7 +78,7 @@ class Client(object):
         auth = loader.load_from_options(auth_url=v3_kwargs['auth_url'],
                                  username=v3_kwargs['username'],
                                  password=v3_kwargs['password'],
-                                 project_id=v3_kwargs['project_name'])
+                                 project_name=v3_kwargs['project_name'])
 
         sess = session.Session(auth=auth)
         self.nv_client = nova_client.Client(2.1, session=sess)
